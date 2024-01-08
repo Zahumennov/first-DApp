@@ -39,6 +39,14 @@ function test_top_up_balance() {
 
     val user = user @ { .id == alice };
     assert_equals(user.balance, 10);
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice, 11))
+        .sign(admin)
+        .run();
+    
+    assert_equals(user.balance, 21);
+    
 }
 
 function test_top_up_balance_with_wrong_amount() {
