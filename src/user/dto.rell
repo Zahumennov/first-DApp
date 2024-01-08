@@ -1,0 +1,3 @@
+struct module_args {
+  admin_pubkey: byte_array;
+}
