@@ -41,6 +41,14 @@ function test_top_up_balance() {
     assert_equals(user.balance, 10);
 }
 
+function test_top_up_balance_with_wrong_amount() {
+    rell.test.tx()
+        .op(create_user("Alice", alice))
+        .op(top_up_user_balance(alice, -10))
+        .sign(admin)
+        .run_must_fail();
+}
+
 function test_top_up_balance_as_non_admin() {
     rell.test.tx()
         .op(create_user("Alice", alice))

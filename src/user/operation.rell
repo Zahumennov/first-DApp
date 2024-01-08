@@ -7,6 +7,7 @@ operation create_user(name, pubkey) {
 operation top_up_user_balance(id: byte_array, amount: integer) {
   val adminPubkey = chain_context.args.admin_pubkey;
   require(op_context.is_signer(adminPubkey), "Only admin can top up the balance");
+  require(amount > 0, "Amount must be greater than zero");
   
   update user @ { .id == id }( .balance += amount );
 }
