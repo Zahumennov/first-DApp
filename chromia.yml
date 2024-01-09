@@ -2,7 +2,7 @@ blockchains:
   chat-first-app:
     module: main
     moduleArgs:
-      user:
+      users:
         admin_pubkey: <pubkey from .chromia/config-file>
 compile:
   rellVersion: 0.12.0
@@ -12,5 +12,5 @@ test:
   modules:
     - test
   moduleArgs:
-    user:
+    users:
       admin_pubkey: "03B71E579C71DAEA9A9577F6B8B30D5E95DF7B4CB3168E6CFB98DA73C30AE5E952"

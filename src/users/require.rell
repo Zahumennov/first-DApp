@@ -1,0 +1,26 @@
+function require_name_size(name) =
+    require(
+        name.size() <= 15, 
+        "User name cannot be longer than 20 letters"
+    );
+
+function require_admin() {
+    val adminPubkey = chain_context.args.admin_pubkey;
+    require(
+        op_context.is_signer(adminPubkey), 
+        "Only admin can top up the balance"
+    );
+}
+
+function require_non_zero_balance(amount: integer) =
+    require(
+        amount > 0, 
+        "Amount must be greater than zero"
+    );
+
+
+function require_get_user(id: byte_array) =
+    require(
+        user @? { .id == id },
+        "User not found: '%s'".format(id)
+    );

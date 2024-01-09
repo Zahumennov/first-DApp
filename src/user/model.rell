@@ -1,5 +1,0 @@
-entity user {
-  mutable name;
-  key id: byte_array;
-  mutable balance: integer = 0;
-}
