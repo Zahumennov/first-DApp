@@ -1,4 +1,4 @@
 @test module;
 
-import users.*;
+import channels.*;
 import ^.mocks.*;

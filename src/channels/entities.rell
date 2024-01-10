@@ -1,0 +1,7 @@
+entity channel {
+    key name: text;
+}
+
+entity channel_member {
+    key user, channel;
+}

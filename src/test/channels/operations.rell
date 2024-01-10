@@ -1,0 +1,8 @@
+function test_create_channel() {
+    rell.test.tx()
+        .op(create_channel("My channel"))
+        .run();
+        
+    val all_channels = channel @* { };
+    assert_equals(all_channels.size(), 1);
+}

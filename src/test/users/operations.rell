@@ -16,38 +16,3 @@ function test_create_user_with_wrong_name() {
         .op(create_user(wrong_user_name, trudy))
         .run_must_fail("User name cannot be longer than 20 letters");
 }
-
-function test_top_up_balance() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice))
-        .op(top_up_user_balance(alice, 10))
-        .sign(admin)
-        .run();
-
-    val user = user @ { .id == alice };
-    assert_equals(user.balance, 10);
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice, 11))
-        .sign(admin)
-        .run();
-    
-    assert_equals(user.balance, 21);
-    
-}
-
-function test_top_up_balance_with_wrong_amount() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice))
-        .op(top_up_user_balance(alice, -10))
-        .sign(admin)
-        .run_must_fail("Amount must be greater than zero");
-}
-
-function test_top_up_balance_as_non_admin() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice))
-        .op(top_up_user_balance(alice, 10))
-        .sign(dave)
-        .run_must_fail("Only admin can top up the balance");
-}

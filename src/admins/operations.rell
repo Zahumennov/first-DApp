@@ -1,0 +1,6 @@
+operation top_up_user_balance(id: byte_array, amount: integer) {
+    require_admin();
+    require_non_zero_amount(amount);
+    users.require_get_user(id);
+    users.increase_user_balance(id, amount);
+}

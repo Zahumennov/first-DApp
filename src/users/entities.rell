@@ -3,7 +3,3 @@ entity user {
     key id: byte_array;
     mutable balance: integer = 0;
 }
-
-struct module_args {
-    admin_pubkey: byte_array;
-}

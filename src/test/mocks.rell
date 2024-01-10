@@ -1,3 +1,5 @@
+@test module;
+
 val alice = rell.test.pubkeys.alice;
 val bob = rell.test.pubkeys.bob;
 val trudy = rell.test.pubkeys.trudy;

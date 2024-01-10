@@ -1,4 +1,5 @@
 @test module;
 
 import users.*;
+import admins.*;
 import ^.mocks.*;
