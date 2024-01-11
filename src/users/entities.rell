@@ -1,5 +1,5 @@
 entity user {
-    mutable name;
+    index name;
     key id: byte_array;
     mutable balance: integer = 0;
 }

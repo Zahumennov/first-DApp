@@ -1,0 +1,2 @@
+query get_user_by_id(id: byte_array) =
+  user @ { .id == id };

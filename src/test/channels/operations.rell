@@ -1,8 +1,68 @@
 function test_create_channel() {
     rell.test.tx()
-        .op(create_channel("My channel"))
+        .op(create_user(alice_name, alice))
         .run();
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice, 10))
+        .sign(admin)
+        .run();
+    
+    rell.test.tx()
+        .op(register_channel(alice, "Alice chan 1"))
+        .op(register_channel(alice, "Alice chan 2"))
+        .sign(alice_kp)
+        .run();
+
+    val user = user @ { .id == alice };    
         
-    val all_channels = channel @* { };
-    assert_equals(all_channels.size(), 1);
+    assert_equals(channel @ { } (@sum 1), 2);
+    assert_equals(channel_member @ { } (@sum 1), 2);
+    assert_equals(user.balance, 4);
+}
+
+function test_create_channel_with_wrong_sign() {
+    rell.test.tx()
+        .op(create_user(alice_name, alice))
+        .run();
+    
+    rell.test.tx()
+        .op(register_channel(alice, "Alice chan 1"))
+        .op(register_channel(alice, "Alice chan 2"))
+        .sign(bob_kp)
+        .run_must_fail("User must sign this operation");
+}
+
+function test_create_channel_with_wrong_name() {
+    rell.test.tx()
+        .op(create_user(alice_name, alice))
+        .run();
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice, 10))
+        .sign(admin)
+        .run();
+    
+    rell.test.tx()
+        .op(register_channel(alice, "Alice channel 1"))
+        .sign(alice_kp)
+        .run_must_fail("Channel name cannot be longer than 12 letters");
+
+    rell.test.tx()
+        .op(register_channel(alice, "Alice chan 1"))
+        .op(register_channel(alice, "Alice chan 1"))
+        .sign(alice_kp)
+        .run_must_fail("Chanel name must be unique");        
+}
+
+
+function test_create_channel_with_wrong_balance() {
+    rell.test.tx()
+        .op(create_user(alice_name, alice))
+        .run();
+    
+    rell.test.tx()
+        .op(register_channel(alice, "Alice chan 1"))
+        .sign(alice_kp)
+        .run_must_fail("Not enough balance");
 }

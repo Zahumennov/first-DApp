@@ -1,0 +1,3 @@
+function create_channel_member(user: user, channel: channel) {
+    create channel_member( user = user, channel = channel );
+}

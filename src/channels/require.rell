@@ -1,0 +1,16 @@
+function require_correct_channel_name(name: text) {
+    require(
+        name.size() <= 12, 
+        "Channel name cannot be longer than 12 letters"
+    );
+    require(
+        is_channel_name_not_exist(name), 
+        "Chanel name must be unique"
+    );
+}
+
+function require_enough_balance(user: user) =
+    require(
+        user.balance > 3,
+        "Not enough balance"
+    );

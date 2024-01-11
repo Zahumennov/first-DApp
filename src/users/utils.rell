@@ -1,3 +1,7 @@
 function increase_user_balance(id: byte_array, amount: integer) {
     update user @ { .id == id }( .balance += amount );
 }
+
+function reduce_user_balance(id: byte_array, amount: integer) {
+    update user @ { .id == id }( .balance -= amount );
+}

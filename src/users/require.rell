@@ -1,11 +1,23 @@
 function require_user_name_size(name) =
     require(
         name.size() <= 15, 
-        "User name cannot be longer than 20 letters"
+        "User name cannot be longer than 15 letters"
     );
 
-function require_get_user(id: byte_array) =
+function require_user(id: byte_array) = 
     require(
-        user @? { .id == id },
-        "User not found: '%s'".format(id)
+        user @? { id }, 
+        "User with id %s does not exist".format(id)
+    );
+
+function require_is_signer(pubkey) = 
+    require(
+        op_context.is_signer(pubkey), 
+        "User must sign this operation"
+    );
+
+function require_unique_user_name(name) = 
+    require(
+        empty(user @? { .name == name }), 
+        "User name must be unique"
     );

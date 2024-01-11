@@ -5,10 +5,13 @@ val bob = rell.test.pubkeys.bob;
 val trudy = rell.test.pubkeys.trudy;
 val dave = rell.test.keypairs.dave;
 
+val alice_name = "Alice";
+val wrong_user_name = "12345678901234567890";
+
+val alice_kp = rell.test.keypairs.alice;
+val bob_kp = rell.test.keypairs.bob;
+
 val admin = rell.test.keypair(
     priv = x"1EE41B765EEDA1455DA527197001C03780ACEDD118FC5561A751B16B926A804A",
     pub = x"03B71E579C71DAEA9A9577F6B8B30D5E95DF7B4CB3168E6CFB98DA73C30AE5E952"
 );
-
-val alice_name = "Alice";
-val wrong_user_name = "12345678901234567890";

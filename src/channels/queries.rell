@@ -1,0 +1,2 @@
+query is_channel_name_not_exist(name: text) =
+  empty(channel @? { .name == name });

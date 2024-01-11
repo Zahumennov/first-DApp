@@ -1,5 +1,5 @@
 entity channel {
-    key name: text;
+    key name: text, owner: user;
 }
 
 entity channel_member {
