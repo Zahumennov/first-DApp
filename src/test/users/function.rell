@@ -1,3 +1,0 @@
-function reduce_balance(user: user, channel: channel) {
-    create user( user = user, channel = channel );
-}

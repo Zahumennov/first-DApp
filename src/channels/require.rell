@@ -14,3 +14,9 @@ function require_enough_balance(user: user) =
         user.balance > 3,
         "Not enough balance"
     );
+
+function require_channel(name: text) = 
+    require(
+        channel @? { .name == name }, 
+        "Channel with name %s does not exist".format(name)
+    );

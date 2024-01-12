@@ -5,3 +5,9 @@ entity channel {
 entity channel_member {
     key user, channel;
 }
+
+struct member_to_channel_arguments {
+    owner_id: byte_array; 
+    user_id: byte_array; 
+    channel_name: text;
+}
