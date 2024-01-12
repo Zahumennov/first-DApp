@@ -12,5 +12,6 @@ operation connect_member_to_channel(arguments: member_to_channel_arguments) {
     users.require_is_signer(arguments.owner_id);
     val user = users.require_user(arguments.user_id);
     val channel = require_channel(arguments.channel_name);
+    require_unique_member(user, channel);
     create_channel_member(user, channel);
 }

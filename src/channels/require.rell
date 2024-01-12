@@ -20,3 +20,9 @@ function require_channel(name: text) =
         channel @? { .name == name }, 
         "Channel with name %s does not exist".format(name)
     );
+
+function require_unique_member(member: user, channel: channel) = 
+    require(
+        empty(channel_member @? { .user == member, .channel == channel }),
+        "Member already exists"
+    );

@@ -47,6 +47,17 @@ function test_create_channel_with_wrong_name() {
         .op(register_channel(alice, "Alice channel 1"))
         .sign(alice_kp)
         .run_must_fail("Channel name cannot be longer than 12 letters");
+}
+
+function test_create_channel_with_not_unique_name() {
+    rell.test.tx()
+        .op(create_user(alice_name, alice))
+        .run();
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice, 10))
+        .sign(admin)
+        .run();
 
     rell.test.tx()
         .op(register_channel(alice, "Alice chan 1"))
@@ -90,4 +101,70 @@ function test_connect_member_to_channel() {
         .run();
 
     assert_equals(channel_member @ { } (@sum 1), 2);
+}
+
+function test_connect_member_to_not_exists_channel() {
+    rell.test.tx()
+        .op(create_user(alice_name, alice))
+        .op(create_user("Bob", bob))
+        .run();
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice, 10))
+        .sign(admin)
+        .run();
+    
+    rell.test.tx()
+        .op(register_channel(alice, "Alice chan 3"))
+        .sign(alice_kp)
+        .run();
+
+    rell.test.tx()
+        .op(connect_member_to_channel(channel_arguments))
+        .sign(alice_kp)
+        .run_must_fail("Channel with name Alice chan 1 does not exist");
+}
+
+function test_connect_not_exists_member_to_channel() {
+    rell.test.tx()
+        .op(create_user(alice_name, alice))
+        .run();
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice, 10))
+        .sign(admin)
+        .run();
+    
+    rell.test.tx()
+        .op(register_channel(alice, "Alice chan 1"))
+        .sign(alice_kp)
+        .run();
+
+    rell.test.tx()
+        .op(connect_member_to_channel(channel_arguments))
+        .sign(alice_kp)
+        .run_must_fail("User with id %s does not exist".format(bob));
+}
+
+function test_connect_member_to_channel_twice() {
+    rell.test.tx()
+        .op(create_user(alice_name, alice))
+        .op(create_user("Bob", bob))
+        .run();
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice, 10))
+        .sign(admin)
+        .run();
+    
+    rell.test.tx()
+        .op(register_channel(alice, "Alice chan 1"))
+        .sign(alice_kp)
+        .run();
+
+    rell.test.tx()
+        .op(connect_member_to_channel(channel_arguments))
+        .op(connect_member_to_channel(channel_arguments))
+        .sign(alice_kp)
+        .run_must_fail("Member already exists");
 }
