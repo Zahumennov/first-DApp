@@ -21,3 +21,9 @@ function require_unique_user_name(name) =
         empty(user @? { .name == name }), 
         "User name must be unique"
     );
+
+function require_session_key() = 
+    require(
+        op_context.get_signers().size() > 0, 
+        "Must sign with a session keypair"
+    );

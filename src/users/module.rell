@@ -1,1 +1,12 @@
 module;
+
+import lib.ft4.accounts. {
+    account,
+    add_auth_descriptor_to_account,
+    auth_descriptor,
+    auth_type,
+    single_sig_auth_descriptor,
+    Unsafe
+};
+import lib.ft4.auth;
+import lib.ft4.auth. { signature, _recover_eth_address };

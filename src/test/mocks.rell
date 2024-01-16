@@ -2,24 +2,25 @@
 
 import channels;
 
+val alice_name = "Alice";
 val alice = rell.test.pubkeys.alice;
+val alice_priv = rell.test.privkeys.alice;
+val alice_kp = rell.test.keypairs.alice;
+val alice_evm_address = x"1337c28e95ce85175af66353fecccd676e3d273a";
+val alice_evm_privkey = x"18e2d37cd5b51555c52d454c22608dee5e7151384f2d7b7bc21616e2eadc3e6f";
+
+
 val bob = rell.test.pubkeys.bob;
+val bob_kp = rell.test.keypairs.bob;
+val bob_evm_address = x"ab591b5f61af9c1cfc97218727cf94be1c00522b";
+val bob_evm_privkey = x"7326bbe04ad7df818492ced602beb6e0c87550634f6c240facc5157bd1c57553";
+
 val trudy = rell.test.pubkeys.trudy;
 val dave = rell.test.keypairs.dave;
 
-val alice_name = "Alice";
 val wrong_user_name = "12345678901234567890";
 
-val alice_kp = rell.test.keypairs.alice;
-val bob_kp = rell.test.keypairs.bob;
-
 val admin = rell.test.keypair(
-    priv = x"1EE41B765EEDA1455DA527197001C03780ACEDD118FC5561A751B16B926A804A",
-    pub = x"03B71E579C71DAEA9A9577F6B8B30D5E95DF7B4CB3168E6CFB98DA73C30AE5E952"
-);
-
-val channel_arguments = channels.member_to_channel_arguments(
-    owner_id = alice, 
-    user_id = bob,
-    channel_name = "Alice chan 1"
+    priv = x"8EE4134E4B9680186C0F5E80D2563CF92E386B84C197AFE71430063A6B14032A",
+    pub = x"02BABF6D2C7E6AB6A54301989BF05BDAEE3472268C1F5B272388F676625B35AEA9"
 );

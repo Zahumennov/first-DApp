@@ -2,8 +2,22 @@ blockchains:
   chat-first-app:
     module: main
     moduleArgs:
+      lib.ft4.accounts:
+        rate_limit_active: 1
+        rate_limit_max_points: 10
+        rate_limit_recovery_time: 5000
+        rate_limit_points_at_account_creation: 1
+      lib.ft4.admin:
+        admin_pubkey: "02BABF6D2C7E6AB6A54301989BF05BDAEE3472268C1F5B272388F676625B35AEA9"
       admins:
-        admin_pubkey: <pubkey from .chromia/config-file>
+        admin_pubkey: "02BABF6D2C7E6AB6A54301989BF05BDAEE3472268C1F5B272388F676625B35AEA9"
+libs:
+  ft4:
+    registry: https://bitbucket.org/chromawallet/ft3-lib
+    tagOrBranch: v0.1.7r
+    path: rell/src/lib/ft4
+    rid: x"AF18D94EC9B01F9FD82BCE6B12F68D83CF19C9E2B2CDFB49C8AA2C9AA38B31B4"
+    insecure: false
 compile:
   rellVersion: 0.12.0
 database:
@@ -12,5 +26,12 @@ test:
   modules:
     - test
   moduleArgs:
+    lib.ft4.accounts:
+      rate_limit_active: 1
+      rate_limit_max_points: 10
+      rate_limit_recovery_time: 5000
+      rate_limit_points_at_account_creation: 1
+    lib.ft4.admin:
+      admin_pubkey: "02BABF6D2C7E6AB6A54301989BF05BDAEE3472268C1F5B272388F676625B35AEA9"
     admins:
-      admin_pubkey: "03B71E579C71DAEA9A9577F6B8B30D5E95DF7B4CB3168E6CFB98DA73C30AE5E952"
+      admin_pubkey: "02BABF6D2C7E6AB6A54301989BF05BDAEE3472268C1F5B272388F676625B35AEA9"

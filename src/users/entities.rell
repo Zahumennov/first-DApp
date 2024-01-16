@@ -2,4 +2,5 @@ entity user {
     index name;
     key id: byte_array;
     mutable balance: integer = 0;
+    key account;
 }

@@ -1,34 +1,39 @@
 function test_top_up_balance() {
     rell.test.tx()
-        .op(create_user(alice_name, alice))
-        .op(top_up_user_balance(alice, 10))
-        .sign(admin)
+        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
+        .sign(alice_kp)
         .run();
 
-    val user = user @ { .id == alice };
-    assert_equals(user.balance, 10);
-
     rell.test.tx()
-        .op(top_up_user_balance(alice, 11))
+        .op(top_up_user_balance(alice_evm_address, 10))
         .sign(admin)
         .run();
     
-    assert_equals(user.balance, 21);
+    val user = user @ { .id == alice_evm_address };
+    assert_equals(user.balance, 10);
     
 }
 
 function test_top_up_balance_with_wrong_amount() {
     rell.test.tx()
-        .op(create_user(alice_name, alice))
-        .op(top_up_user_balance(alice, -10))
+        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
+        .sign(alice_kp)
+        .run();
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice_evm_address, -10))
         .sign(admin)
         .run_must_fail("Amount must be greater than zero");
 }
 
 function test_top_up_balance_as_non_admin() {
     rell.test.tx()
-        .op(create_user(alice_name, alice))
-        .op(top_up_user_balance(alice, 10))
-        .sign(dave)
+        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
+        .sign(alice_kp)
+        .run();
+
+    rell.test.tx()
+        .op(top_up_user_balance(alice_evm_address, 10))
+        .sign(alice_kp)
         .run_must_fail("Only admin can top up the balance");
 }

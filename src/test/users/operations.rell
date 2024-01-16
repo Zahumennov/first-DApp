@@ -1,25 +1,25 @@
-function test_create_user() {
+function test_create_user() {    
     rell.test.tx()
-        .op(create_user(alice_name, alice))
-        .op(create_user("Bob", bob))
+        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
+        .sign(alice_kp)
         .run();
         
     val all_users = user @* { };
-
-    assert_equals(all_users.size(), 2);
+    assert_equals(all_users.size(), 1);
     assert_equals(all_users[0].balance, 0);
-    assert_equals(all_users[1].balance, 0);
 }
 
 function test_create_user_with_wrong_name() {
     rell.test.tx()
-        .op(create_user(wrong_user_name, trudy))
+        .op(create_user(wrong_user_name, alice_evm_address, get_alice_signature()))
+        .sign(alice_kp)
         .run_must_fail("User name cannot be longer than 15 letters");
 }
 
 function test_create_user_with_same_name() {
     rell.test.tx()
-        .op(create_user(alice_name, alice))
-        .op(create_user(alice_name, alice))
+        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
+        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
+        .sign(alice_kp)
         .run_must_fail("User name must be unique");
 }

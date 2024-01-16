@@ -2,3 +2,4 @@ module;
 
 import users;
 import users.{ user };
+import lib.ft4.auth;

@@ -1,4 +1,7 @@
 @test module;
 
 import users.*;
+import lib.ft4.accounts.external.{ add_auth_descriptor };
+import lib.ft4.test.utils.{ ft_auth_operation_for, evm_auth_operation_for, evm_sign };
 import ^.mocks.*;
+import ^.helpers.*;

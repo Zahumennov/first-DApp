@@ -1,0 +1,7 @@
+@test module;
+import users.*;
+import lib.ft4.test.utils.{ evm_sign };
+import ^.mocks.*;
+
+function get_alice_signature() = 
+    evm_sign(evm.get_register_message(alice_evm_address), alice_evm_privkey);

@@ -1,17 +1,18 @@
-operation register_channel(user_id: byte_array, channel_name: text) {
-    users.require_is_signer(user_id);
+operation register_channel(channel_name: text) {
+    users.require_session_key();
+    val account = auth.authenticate();
+    val user = user @ { account };
     require_correct_channel_name(channel_name);
-    val user = users.require_user(user_id);
     require_enough_balance(user);
-    users.reduce_user_balance(user_id, 3);
+    users.reduce_user_balance(user, 3);
     val channel = create channel( name = channel_name, owner = user );
     create_channel_member(user, channel);
 }
 
-operation connect_member_to_channel(arguments: member_to_channel_arguments) {
-    users.require_is_signer(arguments.owner_id);
-    val user = users.require_user(arguments.user_id);
-    val channel = require_channel(arguments.channel_name);
+operation connect_member_to_channel(user_id: byte_array, channel_name: text) {
+    users.require_session_key();
+    val user = users.require_user(user_id);
+    val channel = require_channel(channel_name);
     require_unique_member(user, channel);
     create_channel_member(user, channel);
 }
