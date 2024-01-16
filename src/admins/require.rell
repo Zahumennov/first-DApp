@@ -1,11 +1,3 @@
-function require_admin() {
-    val adminPubkey = chain_context.args.admin_pubkey;
-    require(
-        op_context.is_signer(adminPubkey), 
-        "Only admin can top up the balance"
-    );
-}
-
 function require_non_zero_amount(amount: integer) =
     require(
         amount > 0, 

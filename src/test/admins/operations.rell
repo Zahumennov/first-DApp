@@ -35,5 +35,5 @@ function test_top_up_balance_as_non_admin() {
     rell.test.tx()
         .op(top_up_user_balance(alice_evm_address, 10))
         .sign(alice_kp)
-        .run_must_fail("Only admin can top up the balance");
+        .run_must_fail("Expected admin signature");
 }

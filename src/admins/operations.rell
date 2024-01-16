@@ -1,5 +1,5 @@
 operation top_up_user_balance(id: byte_array, amount: integer) {
-    require_admin();
+    ft4.admin.require_admin();
     require_non_zero_amount(amount);
     val user = users.require_user(id);
     users.increase_user_balance(user, amount);
