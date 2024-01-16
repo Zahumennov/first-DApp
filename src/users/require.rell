@@ -27,3 +27,22 @@ function require_session_key() =
         op_context.get_signers().size() > 0, 
         "Must sign with a session keypair"
     );
+
+function require_not_invited_user(id: byte_array) = 
+    require(
+        empty(get_withelist_instance_id( id = id )),
+        "User already invited"
+    );
+
+function require_non_existent_user(id: byte_array) = 
+    require(
+        empty(get_user_by_id( id = id )),
+        "User already exists"
+    );
+
+
+function require_invited_user(id: byte_array) = 
+    require(
+        whitelist @? { id }, 
+        "User with id %s is not invited".format(id)
+    );

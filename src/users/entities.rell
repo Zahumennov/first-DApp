@@ -4,3 +4,7 @@ entity user {
     mutable balance: integer = 0;
     key account;
 }
+
+entity whitelist {
+    key id: byte_array;
+}

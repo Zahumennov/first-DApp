@@ -2,7 +2,14 @@ operation create_user(name, evm_address: byte_array, signature) {
     require_session_key();
     require_user_name_size(name);
     require_unique_user_name(name);
+    val invited_user = require_invited_user(evm_address);
     val account = evm.create_account_from_evm(evm_address, signature);
     create user( name = name, id = evm_address, account = account );
     add_auth_descriptor_to_account(account, single_sig_auth_descriptor(op_context.get_signers()[0], set(["MySession"])));
+    delete invited_user;
+}
+
+operation invite_user_as_user(evm_address: byte_array) {
+    auth_user();
+    add_evm_address_to_whitelist( id = evm_address );
 }

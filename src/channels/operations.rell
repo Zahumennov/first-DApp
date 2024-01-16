@@ -1,7 +1,6 @@
 operation register_channel(channel_name: text) {
     users.require_session_key();
-    val account = auth.authenticate();
-    val user = user @ { account };
+    val user = users.auth_user();
     require_correct_channel_name(channel_name);
     require_enough_balance(user);
     users.reduce_user_balance(user, 3);
@@ -11,6 +10,7 @@ operation register_channel(channel_name: text) {
 
 operation connect_member_to_channel(user_id: byte_array, channel_name: text) {
     users.require_session_key();
+    users.auth_user();
     val user = users.require_user(user_id);
     val channel = require_channel(channel_name);
     require_unique_member(user, channel);

@@ -1,2 +1,5 @@
 query get_user_by_id(id: byte_array) =
-  user @ { .id == id };
+  user @? { .id == id };
+
+query get_withelist_instance_id(id: byte_array) =
+  whitelist @? { .id == id };

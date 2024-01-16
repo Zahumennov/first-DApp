@@ -5,3 +5,9 @@ function increase_user_balance(user: user, amount: integer) {
 function reduce_user_balance(user: user, amount: integer) {
     user.balance -= amount;
 }
+
+function add_evm_address_to_whitelist(id: byte_array) {
+    require_not_invited_user( id = id );
+    require_non_existent_user( id = id );
+    create whitelist( id = id );
+}

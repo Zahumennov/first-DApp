@@ -1,15 +1,13 @@
 function test_create_user() {    
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
-        
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
     val all_users = user @* { };
     assert_equals(all_users.size(), 1);
     assert_equals(all_users[0].balance, 0);
 }
 
 function test_create_user_with_wrong_name() {
+    invite_user_by_admin(alice_evm_address);
     rell.test.tx()
         .op(create_user(wrong_user_name, alice_evm_address, get_alice_signature()))
         .sign(alice_kp)
@@ -17,9 +15,24 @@ function test_create_user_with_wrong_name() {
 }
 
 function test_create_user_with_same_name() {
+    invite_user_by_admin(alice_evm_address);
     rell.test.tx()
         .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
         .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
         .sign(alice_kp)
         .run_must_fail("User name must be unique");
+}
+
+function test_invite_user_by_user() {    
+    invite_user_by_admin(alice_evm_address);
+
+    create_user_alice();
+
+    rell.test.tx()
+        .op(ft_auth_operation_for(alice_kp.pub))
+        .op(invite_user_as_user(bob_evm_address))
+        .sign(alice_kp)
+        .run();
+
+    assert_equals(whitelist @ { } ( @sum 1 ), 1);
 }

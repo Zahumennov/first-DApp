@@ -1,13 +1,7 @@
 function test_create_channel() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice_evm_address, 10))
-        .sign(admin)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
+    top_up_user_balance_by_admin(alice_evm_address, 10);
     
     rell.test.tx()
         .op(ft_auth_operation_for(alice_kp.pub))
@@ -25,10 +19,8 @@ function test_create_channel() {
 }
 
 function test_create_channel_with_wrong_sign() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
     
     rell.test.tx()
         .op(ft_auth_operation_for(alice_kp.pub))
@@ -38,15 +30,9 @@ function test_create_channel_with_wrong_sign() {
 }
 
 function test_create_channel_with_wrong_name() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice_evm_address, 10))
-        .sign(admin)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
+    top_up_user_balance_by_admin(alice_evm_address, 10);
     
     rell.test.tx()
         .op(ft_auth_operation_for(alice_kp.pub))
@@ -56,15 +42,9 @@ function test_create_channel_with_wrong_name() {
 }
 
 function test_create_channel_with_not_unique_name() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice_evm_address, 10))
-        .sign(admin)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
+    top_up_user_balance_by_admin(alice_evm_address, 10);
 
     rell.test.tx()
         .op(ft_auth_operation_for(alice_kp.pub))
@@ -77,10 +57,8 @@ function test_create_channel_with_not_unique_name() {
 
 
 function test_create_channel_with_wrong_balance() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
     
     rell.test.tx()
         .op(ft_auth_operation_for(alice_kp.pub))
@@ -91,21 +69,15 @@ function test_create_channel_with_wrong_balance() {
 
 
 function test_connect_member_to_channel() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
+    top_up_user_balance_by_admin(alice_evm_address, 10);
 
+    invite_user_by_admin(bob_evm_address);
     val bob_signature = evm_sign(evm.get_register_message(bob_evm_address), bob_evm_privkey);
-
     rell.test.tx()
         .op(create_user("Bob", bob_evm_address, bob_signature))
         .sign(bob_kp)
-        .run();
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice_evm_address, 10))
-        .sign(admin)
         .run();
     
     rell.test.tx()
@@ -124,21 +96,15 @@ function test_connect_member_to_channel() {
 }
 
 function test_connect_member_to_not_exists_channel() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
+    top_up_user_balance_by_admin(alice_evm_address, 10);
 
+    invite_user_by_admin(bob_evm_address);
     val bob_signature = evm_sign(evm.get_register_message(bob_evm_address), bob_evm_privkey);
-
     rell.test.tx()
         .op(create_user("Bob", bob_evm_address, bob_signature))
         .sign(bob_kp)
-        .run();
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice_evm_address, 10))
-        .sign(admin)
         .run();
     
     rell.test.tx()
@@ -155,15 +121,9 @@ function test_connect_member_to_not_exists_channel() {
 }
 
 function test_connect_not_exists_member_to_channel() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice_evm_address, 10))
-        .sign(admin)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
+    top_up_user_balance_by_admin(alice_evm_address, 10);
     
     rell.test.tx()
         .op(ft_auth_operation_for(alice_kp.pub))
@@ -172,27 +132,22 @@ function test_connect_not_exists_member_to_channel() {
         .run();
 
     rell.test.tx()
+        .op(ft_auth_operation_for(alice_kp.pub))
         .op(connect_member_to_channel(bob_evm_address, "Alice chan 1"))
         .sign(alice_kp)
         .run_must_fail("User with id %s does not exist".format(bob_evm_address));
 }
 
 function test_connect_member_to_channel_twice() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
+    top_up_user_balance_by_admin(alice_evm_address, 10);
 
+    invite_user_by_admin(bob_evm_address);
     val bob_signature = evm_sign(evm.get_register_message(bob_evm_address), bob_evm_privkey);
-
     rell.test.tx()
         .op(create_user("Bob", bob_evm_address, bob_signature))
         .sign(bob_kp)
-        .run();
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice_evm_address, 10))
-        .sign(admin)
         .run();
     
     rell.test.tx()

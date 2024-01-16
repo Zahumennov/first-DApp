@@ -1,7 +1,29 @@
 @test module;
-import users.*;
+import users;
+import admins;
 import lib.ft4.test.utils.{ evm_sign };
 import ^.mocks.*;
 
 function get_alice_signature() = 
-    evm_sign(evm.get_register_message(alice_evm_address), alice_evm_privkey);
+    evm_sign(users.evm.get_register_message(alice_evm_address), alice_evm_privkey);
+
+function invite_user_by_admin(evm_address: byte_array) {
+    rell.test.tx()
+        .op(admins.invite_user_as_admin(evm_address))
+        .sign(admin)
+        .run();
+}
+
+function create_user_alice() {
+    rell.test.tx()
+        .op(users.create_user(alice_name, alice_evm_address, get_alice_signature()))
+        .sign(alice_kp)
+        .run();
+}
+
+function top_up_user_balance_by_admin(evm_address: byte_array, amount: integer) {
+    rell.test.tx()
+        .op(admins.top_up_user_balance(evm_address, amount))
+        .sign(admin)
+        .run();
+}

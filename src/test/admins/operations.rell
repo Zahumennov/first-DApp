@@ -1,13 +1,7 @@
 function test_top_up_balance() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
-
-    rell.test.tx()
-        .op(top_up_user_balance(alice_evm_address, 10))
-        .sign(admin)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
+    top_up_user_balance_by_admin(alice_evm_address, 10);
     
     val user = user @ { .id == alice_evm_address };
     assert_equals(user.balance, 10);
@@ -15,10 +9,8 @@ function test_top_up_balance() {
 }
 
 function test_top_up_balance_with_wrong_amount() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
 
     rell.test.tx()
         .op(top_up_user_balance(alice_evm_address, -10))
@@ -27,10 +19,8 @@ function test_top_up_balance_with_wrong_amount() {
 }
 
 function test_top_up_balance_as_non_admin() {
-    rell.test.tx()
-        .op(create_user(alice_name, alice_evm_address, get_alice_signature()))
-        .sign(alice_kp)
-        .run();
+    invite_user_by_admin(alice_evm_address);
+    create_user_alice();
 
     rell.test.tx()
         .op(top_up_user_balance(alice_evm_address, 10))
